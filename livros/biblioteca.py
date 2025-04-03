@@ -5,12 +5,10 @@ def criar_banco_biblioteca():
     conn = sqlite3.connect('biblioteca.db')
     cursor = conn.cursor()
     
-    # Exclui tabelas se já existirem para evitar erros
     cursor.execute("DROP TABLE IF EXISTS LivroAutor")
     cursor.execute("DROP TABLE IF EXISTS Livros")
     cursor.execute("DROP TABLE IF EXISTS Autores")
     
-    # Cria a tabela 
     cursor.execute('''
     CREATE TABLE Livros (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +29,6 @@ def criar_banco_biblioteca():
     )
     ''')
     
-    # Cria a tabela de relacionamento LivroAutor (N:N)
     cursor.execute('''
     CREATE TABLE LivroAutor (
         livro_id INTEGER,
@@ -42,7 +39,7 @@ def criar_banco_biblioteca():
     )
     ''')
     
-    # Insere alguns dados de exemplo na tabela Livros
+    # Insere alguns dados de exemplo
     livros = [
         ('Dom Casmurro', 1899, 'Romance', '9788535909555'),
         ('O Senhor dos Anéis', 1954, 'Fantasia', '9788533613379'),
@@ -53,7 +50,7 @@ def criar_banco_biblioteca():
     
     cursor.executemany('INSERT INTO Livros (titulo, ano_publicacao, genero, isbn) VALUES (?, ?, ?, ?)', livros)
     
-    # Insere alguns dados de exemplo na tabela Autores
+    # Insere alguns dados de exemplo
     autores = [
         ('Machado de Assis', 'Brasileiro', '1839-06-21'),
         ('J.R.R. Tolkien', 'Britânico', '1892-01-03'),
@@ -63,7 +60,6 @@ def criar_banco_biblioteca():
     
     cursor.executemany('INSERT INTO Autores (nome, nacionalidade, data_nascimento) VALUES (?, ?, ?)', autores)
     
-    # Insere os relacionamentos na tabela LivroAutor
     relacoes = [
         (1, 1), 
         (2, 2),  
